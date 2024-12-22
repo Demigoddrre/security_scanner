@@ -21,12 +21,16 @@ This Python-based network security tool facilitates **network scanning**, **traf
    - **Malware Handling**: Select and attach predefined malware scripts (e.g., ransomware, keylogger simulations).
    - **Automated Dispatch**: Send phishing emails with optional attachments.
 
-4. **Centralized Logging**
+4. **Malware Reversal Toolkit**
+   - Reverse the effects of simulated malware attacks using dedicated reversal scripts.
+
+5. **Centralized Logging**
    - Save all activities in detailed CSV logs:
      - `summary.csv`: High-level overview of all operations.
      - `nmap_results.csv`, `traffic_results.csv`, `sqlmap_results.csv`: Specific operation logs.
      - `phishing_logs.csv`: Phishing campaign details.
      - `malware_logs.csv`: Malware attachment details.
+     - `reversal_logs.csv`: Logs for malware reversal operations.
 
 ---
 
@@ -42,6 +46,11 @@ network_security_tool/
 │   ├── phishing_utils.py        # Phishing and email automation functions
 │   ├── malware_utils.py         # Handle malware script selection and logging
 │   ├── csv_utils.py             # CSV operations for logging results
+│   ├── reversal_scripts/        # Scripts to reverse malware effects
+│       ├── ransomware_reversal.py
+│       ├── keylogger_reversal.py
+│       ├── worm_reversal.py
+│       ├── trojan_reversal.py
 ├── outputs/                     # Logs and scan results
 │   ├── summary.csv              # High-level summary of all operations
 │   ├── nmap_results.csv         # Detailed Nmap scan results
@@ -49,10 +58,14 @@ network_security_tool/
 │   ├── sqlmap_results.csv       # SQLMap scan results
 │   ├── phishing_logs.csv        # Logs for phishing campaigns
 │   ├── malware_logs.csv         # Logs for malware scripts sent
+│   ├── reversal_logs.csv        # Logs for malware reversal operations
 ├── scripts/                     # Predefined malware scripts
 │   ├── ransomware_sim.py
 │   ├── trojan_sim.py
 │   ├── keylogger_sim.py
+│   ├── worm_sim.py
+├── requirements.txt             # Dependencies
+├── .env                         # Environment variables for sensitive data
 ```
 
 ---
@@ -65,7 +78,7 @@ network_security_tool/
 
    **Python Libraries:**
    ```bash
-   pip install pyshark openai smtplib
+   pip install -r requirements.txt
    ```
 
 2. **Environment Variables**
@@ -84,7 +97,7 @@ network_security_tool/
 1. **Run the Tool**
    Navigate to the project directory and execute:
    ```bash
-   python3 main.py
+   python main.py
    ```
 
 2. **Menu Options**
@@ -92,13 +105,21 @@ network_security_tool/
    - **2. Listen to Traffic (Pyshark)**: Capture and analyze packets.
    - **3. Scan Database (SQLMap)**: Assess database vulnerabilities.
    - **4. Phishing Campaigns**: Generate and send phishing emails with optional malware attachments.
-   - **5. Exit**: Exit the tool.
+   - **5. Reversal Toolkit**: Reverse the effects of malware simulations.
+   - **6. Exit**: Exit the tool.
 
 3. **Phishing Sub-Menu**
    - **1. Generate Phishing Email**: Create AI-generated phishing content.
    - **2. Select Malware Attachment**: Choose a malware script from predefined options.
    - **3. Send Email**: Dispatch the phishing email to a target.
    - **4. Back to Main Menu**: Return to the main menu.
+
+4. **Reversal Toolkit Sub-Menu**
+   - **1. Reverse Ransomware**: Decrypt files affected by ransomware.
+   - **2. Remove Keylogger**: Clean keylogger infections.
+   - **3. Clean Worm Infection**: Remove worm infections.
+   - **4. Stop Trojan Service**: Terminate malicious trojan services.
+   - **5. Back to Main Menu**: Return to the main menu.
 
 ---
 
@@ -110,6 +131,31 @@ All results are saved in the `outputs/` directory:
 - `sqlmap_results.csv`: Database vulnerability assessments.
 - `phishing_logs.csv`: Details of phishing campaigns.
 - `malware_logs.csv`: Logs of malware attachments.
+- `reversal_logs.csv`: Logs of malware reversal operations.
+
+---
+
+## **Using the Application with or Without a VPN**
+### **VPN and Scanning**
+- **Effect on Scanning**: VPNs route traffic through their servers, masking your IP.
+- **Best Practices**:
+  - Disconnect VPN for local scans.
+  - Use VPN IP for external scans.
+
+### **Finding Your IP Address**
+#### **Public IP**
+- **PowerShell**:
+  ```powershell
+  (Invoke-WebRequest -uri "http://ifconfig.me/ip").Content
+  ```
+- **Online**: Use [WhatIsMyIP](https://www.whatismyip.com/).
+
+#### **Private IP**
+- **PowerShell**:
+  ```powershell
+  ipconfig
+  ```
+- Look for **IPv4 Address** under the relevant adapter.
 
 ---
 
