@@ -1,4 +1,3 @@
 pyshark
 openai
-smtplib
 python-dotenv
